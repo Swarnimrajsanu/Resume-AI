@@ -1,11 +1,13 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router"
 import "../auth.form.scss"
+import { useAuth } from "../hooks/useAuth"
 
 function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
+  const { handleLogin } = useAuth()
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
@@ -13,23 +15,10 @@ function Login() {
     setError("")
 
     try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ email, password }),
-      })
-
-      const data = await res.json()
-
-      if (!res.ok) {
-        setError(data.message || "Login failed")
-        return
-      }
-
+      await handleLogin({ email, password })
       navigate("/")
     } catch (err) {
-      setError("Something went wrong. Please try again.")
+      setError(err.response?.data?.message || "Invalid email or password")
     }
   }
 

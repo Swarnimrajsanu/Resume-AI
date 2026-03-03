@@ -1,12 +1,14 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router"
 import "../auth.form.scss"
+import { useAuth } from "../hooks/useAuth"
 
 function Register() {
   const [username, setUsername] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
+  const { handleRegister } = useAuth()
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
@@ -14,23 +16,10 @@ function Register() {
     setError("")
 
     try {
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ username, email, password }),
-      })
-
-      const data = await res.json()
-
-      if (!res.ok) {
-        setError(data.message || "Registration failed")
-        return
-      }
-
-      navigate("/")
+      await handleRegister({ username, email, password })
+      navigate("/login")
     } catch (err) {
-      setError("Something went wrong. Please try again.")
+      setError(err.response?.data?.message || "Registration failed")
     }
   }
 
