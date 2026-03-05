@@ -13,24 +13,26 @@ services:
       - key: NODE_ENV
         value: production
       - key: MONGO_URI
-        sync: false # set manually in Render dashboard
+        sync: false
       - key: JWT_SECRET
         sync: false
       - key: OPENROUTER_API_KEY
         sync: false
       - key: FRONTEND_URL
-        sync: false # set to your frontend URL after deploying
+        sync: false
       - key: PUPPETEER_SKIP_DOWNLOAD
         value: "false"
 
-staticSites:
   # Frontend Static Site
-  - name: skillscan-ai-frontend
+  - type: web
+    name: skillscan-ai-frontend
+    runtime: static
+    plan: free
     buildCommand: cd Frontend && npm install && npm run build
     staticPublishPath: Frontend/dist
     envVars:
       - key: VITE_API_URL
-        sync: false # set to your backend URL after deploying
+        sync: false
     routes:
       - type: rewrite
         source: /*
