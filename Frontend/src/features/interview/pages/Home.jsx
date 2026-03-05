@@ -1,16 +1,19 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router"
+import { useAuth } from "../../auth/hooks/useAuth"
 import { useInterview } from "../hooks/useInterview"
 import "../style/Home.scss"
 
 function Home() {
     const { loading, reports, generateReport } = useInterview()
+    const { user, handleLogout } = useAuth()
     const navigate = useNavigate()
 
     const [jobDescription, setJobDescription] = useState("")
     const [selfDescription, setSelfDescription] = useState("")
     const [resumeFile, setResumeFile] = useState(null)
     const [formOpen, setFormOpen] = useState(false)
+    const [profileOpen, setProfileOpen] = useState(false)
 
     const getScoreClass = (score) => {
         if (score >= 70) return "high"
@@ -38,6 +41,16 @@ function Home() {
         }
     }
 
+    const onLogout = async () => {
+        await handleLogout()
+        navigate("/login")
+    }
+
+    const getInitials = (name) => {
+        if (!name) return "U"
+        return name.split(" ").map(w => w[0]).join("").toUpperCase().slice(0, 2)
+    }
+
     return (
         <div className="home-page">
             {loading && (
@@ -58,6 +71,37 @@ function Home() {
                     >
                         {formOpen ? "✕ Cancel" : "＋ New Report"}
                     </button>
+
+                    {/* User Profile */}
+                    <div className="user-profile">
+                        <button
+                            className="profile-avatar"
+                            onClick={() => setProfileOpen(!profileOpen)}
+                        >
+                            {getInitials(user?.username)}
+                        </button>
+
+                        {profileOpen && (
+                            <>
+                                <div className="profile-backdrop" onClick={() => setProfileOpen(false)} />
+                                <div className="profile-dropdown">
+                                    <div className="profile-info">
+                                        <div className="profile-avatar-lg">
+                                            {getInitials(user?.username)}
+                                        </div>
+                                        <div className="profile-details">
+                                            <p className="profile-name">{user?.username || "User"}</p>
+                                            <p className="profile-email">{user?.email || ""}</p>
+                                        </div>
+                                    </div>
+                                    <div className="profile-divider" />
+                                    <button className="logout-btn" onClick={onLogout}>
+                                        🚪 Logout
+                                    </button>
+                                </div>
+                            </>
+                        )}
+                    </div>
                 </div>
             </div>
 
