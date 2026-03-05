@@ -1,10 +1,10 @@
-# Render Blueprint – Resume AI
+# Render Blueprint – SkillScan AI
 # https://render.com/docs/blueprint-spec
 
 services:
   # Backend API
   - type: web
-    name: resume-ai-api
+    name: skillscan-ai-api
     runtime: node
     plan: free
     buildCommand: cd Backend && npm install
@@ -25,7 +25,7 @@ services:
 
   # Frontend Static Site
   - type: web
-    name: resume-ai-frontend
+    name: skillscan-ai-frontend
     runtime: static
     plan: free
     buildCommand: cd Frontend && npm install && npm run build

@@ -17,7 +17,7 @@ app.use(cookieParser());
 
 /* Health check route */
 app.get('/', (req, res) => {
-    res.status(200).json({ status: 'ok', message: 'Resume AI API is running' });
+    res.status(200).json({ status: 'ok', message: 'SkillScan AI API is running' });
 });
 
 /* register routes */
