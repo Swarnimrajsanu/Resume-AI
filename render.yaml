@@ -23,9 +23,9 @@ services:
       - key: PUPPETEER_SKIP_DOWNLOAD
         value: "false"
 
+staticSites:
   # Frontend Static Site
-  - type: static
-    name: skillscan-ai-frontend
+  - name: skillscan-ai-frontend
     buildCommand: cd Frontend && npm install && npm run build
     staticPublishPath: Frontend/dist
     envVars:
