@@ -13,7 +13,7 @@ async function generateInterViewReportController(req, res) {
         console.log("Starting interview report generation...");
         console.log("File received:", req.file ? req.file.originalname : "NO FILE");
 
-        const resumeContent = await (new pdfParse.PDFParse(Uint8Array.from(req.file.buffer))).getText()
+        const resumeContent = await pdfParse(req.file.buffer)
         console.log("PDF parsed, text length:", resumeContent?.text?.length || 0);
 
         const { selfDescription, jobDescription } = req.body
