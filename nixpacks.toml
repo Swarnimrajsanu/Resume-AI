@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ["...", "nodejs_20"]
+nixPkgs = ["...", "nodejs_20", "chromium"]
 aptPkgs = [
     "libx11-xcb1", "libxcomposite1", "libxcursor1", "libxdamage1",
     "libxi6", "libxtst6", "libnss3", "libcups2", "libxss1", "libxrandr2",
