@@ -1,7 +1,4 @@
 {
-    "framework": "vite",
-    "buildCommand": "cd Frontend && npm run build",
-    "outputDirectory": "Frontend/dist",
     "rewrites": [
         {
             "source": "/(.*)",
