@@ -32,7 +32,9 @@ Respond with ONLY a valid JSON object with exactly these keys:
         response_format: { type: "json_object" },
     })
 
-    return JSON.parse(response.choices[0].message.content)
+    const rawContent = response.choices[0].message.content;
+    const cleanContent = rawContent.replace(/```(?:json)?|```/g, "").trim();
+    return JSON.parse(cleanContent)
 }
 
 
@@ -83,7 +85,9 @@ The content should be ATS friendly. The resume should ideally be 1-2 pages long 
         response_format: { type: "json_object" },
     })
 
-    const jsonContent = JSON.parse(response.choices[0].message.content)
+    const rawContent = response.choices[0].message.content;
+    const cleanContent = rawContent.replace(/```(?:json)?|```/g, "").trim();
+    const jsonContent = JSON.parse(cleanContent)
 
     const pdfBuffer = await generatePdfFromHtml(jsonContent.html)
 
