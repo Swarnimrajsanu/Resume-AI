@@ -108,7 +108,14 @@ async function logoutUserController(req, res) {
     if (token) {
         await tokenBlacklistModel.create({ token });
     }
-    res.clearCookie('token');
+
+    const isProduction = process.env.NODE_ENV === 'production';
+    res.clearCookie('token', {
+        httpOnly: true,
+        secure: isProduction,
+        sameSite: isProduction ? 'none' : 'lax',
+    });
+
     res.status(200).json({ message: 'User logged out successfully' });
 }
 
